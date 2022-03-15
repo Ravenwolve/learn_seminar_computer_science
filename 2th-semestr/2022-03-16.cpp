@@ -1,4 +1,4 @@
-//---------------0 - "Ёлочка"
+//---------------0 - "ВЁГ«Г®Г·ГЄГ "
 void print(int N, int k = 0) {
     if (k != N - 1) {
         for (int j = k; j < N; j++, cout << endl) {
@@ -58,7 +58,7 @@ int main() {
     setlocale(LC_ALL, "Russian");
     double* A = new double[3];
     for (int i = 0; i < 3; i++, cin >> A[i])
-        cout << "Введите сторону " << i + 1 << ": ";
+        cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г±ГІГ®Г°Г®Г­Гі " << i + 1 << ": ";
     triangle Trg(A[1], A[2], A[3]);
     Trg.show();
 }
