@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+//class MCatalog : public MCD {
+//    vector <MCD> Catalog;
+//public:
+//    void showCatalog() {
+//        for (int i = 0; i < Catalog.size(); i++) {
+//            cout << "Каталог " << i + 1 << ": " << endl;
+//            Catalog[i].showCD();
+//        }
+//    }
+//    void addCD(MCD &Disk) {
+//        Catalog.push_back(Disk);
+//    }
+//    void removeCD(int n) {
+//        Catalog.erase(Catalog.begin() + n - 1);
+//    }
+//    //void search(string NAME) {
+//    //    for (int i = 0; i < Catalog.size(); i++) {
+//    //        for (int j = 0; j < Catalog[i].CD.size(); j++)
+//    //            if (NAME == name)
+//    //                cout << Catalog[i].singer << " - " << Catalog[i].name;
+//    //    }
+//    //}
+//};
+class MCD : public MSong {
+public:
+    vector <MSong> CD;
+    void showCD() {
+        for (int i = 0; i < CD.size(); i++)
+            cout << i + 1 << ") " << CD[i].singer << " - " << CD[i].name << endl;
+    }
+    void addSong(MSong &Song) {
+        CD.push_back(Song);
+    }
+    void removeSong(int n) {
+        CD.erase(CD.begin() + n - 1);
+    }
+};
+class MSong {
+public:
+    string singer, name;
+    MSong(string A, string B) : singer(A), name(B) {};
+};
+int main() {
+    setlocale(LC_ALL, "Russian");
+}
