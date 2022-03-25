@@ -1,49 +1,111 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
-//class MCatalog : public MCD {
-//    vector <MCD> Catalog;
-//public:
-//    void showCatalog() {
-//        for (int i = 0; i < Catalog.size(); i++) {
-//            cout << "Каталог " << i + 1 << ": " << endl;
-//            Catalog[i].showCD();
-//        }
-//    }
-//    void addCD(MCD &Disk) {
-//        Catalog.push_back(Disk);
-//    }
-//    void removeCD(int n) {
-//        Catalog.erase(Catalog.begin() + n - 1);
-//    }
-//    //void search(string NAME) {
-//    //    for (int i = 0; i < Catalog.size(); i++) {
-//    //        for (int j = 0; j < Catalog[i].CD.size(); j++)
-//    //            if (NAME == name)
-//    //                cout << Catalog[i].singer << " - " << Catalog[i].name;
-//    //    }
-//    //}
-//};
-class MCD : public MSong {
+class MSong {
+private:
+    string singer, name;
+public:
+    string getSinger()
+    {
+        return singer;
+    }
+
+    MSong(string A, string B) : singer(A), name(B) {};
+};
+class MCD {
 public:
     vector <MSong> CD;
     void showCD() {
         for (int i = 0; i < CD.size(); i++)
-            cout << i + 1 << ") " << CD[i].singer << " - " << CD[i].name << endl;
+            cout << i + 1 << ") " << CD[i].getSinger() << " - " << CD[i].name << endl;
     }
-    void addSong(MSong &Song) {
+    void addSong(MSong Song) {
         CD.push_back(Song);
     }
     void removeSong(int n) {
         CD.erase(CD.begin() + n - 1);
     }
 };
-class MSong {
+class MCatalog {
 public:
-    string singer, name;
-    MSong(string A, string B) : singer(A), name(B) {};
+    vector <MCD> Catalog;
+    void showCatalog() {
+        for (int i = 0; i < Catalog.size(); i++) {
+            cout << "Disk " << i + 1 << ": " << endl;
+            Catalog[i].showCD();
+        }
+    }
+    void addCD(MCD Disk) {
+        Catalog.push_back(Disk);
+    }
+    void removeCD(int n) {
+        Catalog.erase(Catalog.begin() + n - 1);
+    }
+    void search(string NAME) {
+        for (int i = 0; i < Catalog.size(); i++) {
+            for (int j = 0; j < Catalog[i].CD.size(); j++)
+                if (NAME == Catalog[i].CD[j].singer)
+                    cout << Catalog[i].CD[j].singer << " - " << Catalog[i].CD[j].name << endl;
+        }
+    }
+    void removeSong(int i, int n) {
+        Catalog[i].removeSong(n);
+    }
 };
 int main() {
     setlocale(LC_ALL, "Russian");
+    ifstream fin("input.txt");
+    MSong A("Vladimir", "Putin");
+    vector <MSong> Songs;
+    string singer, name;
+    for (int i = 0; i < 12; i++) {
+        fin >> singer >> name;
+        MSong OneSong(singer, name);
+        Songs.push_back(OneSong);
+    }
+    MCD Disk1, Disk2, Disk3;
+    for (int i = 0; i < 4; i++) {
+        Disk1.CD.push_back(Songs[i]);
+        Disk2.CD.push_back(Songs[i + 4]);
+        Disk3.CD.push_back(Songs[i + 8]);
+    }
+    MCatalog AllDisks;
+    AllDisks.Catalog.push_back(Disk1);
+    AllDisks.Catalog.push_back(Disk2);
+    AllDisks.Catalog.push_back(Disk3);
+    
+
+    Disk1.showCD();
+    cout << endl;
+    Disk2.showCD();
+    cout << endl;
+    Disk3.showCD();
+    cout << endl;
+    Disk1.addSong(A);
+    cout << endl;
+    Disk1.showCD();
+    int N;
+    cin >> N;
+    AllDisks.removeSong(0, N);
+    cout << endl;
+    Disk1.showCD();
+    cout << endl << endl << endl;
+    AllDisks.showCatalog();
+    cout << endl;
+    cin >> N;
+    AllDisks.removeCD(N);
+    cout << endl;
+    AllDisks.showCatalog();
+    cout << endl;
+    AllDisks.showCatalog();
+    cout << endl;
+    AllDisks.addCD(Disk1);
+    cout << endl << endl << endl;
+    AllDisks.showCatalog();
+    cout << endl;
+    string nam;
+    cin >> nam;
+    AllDisks.search(nam);
 }
