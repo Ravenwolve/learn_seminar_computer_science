@@ -1,0 +1,90 @@
+//---------------------------------0----------------------------------
+class point {
+    int x, y;
+public:
+    point() :x(0), y(0) {}
+    point(int a, int b) {
+        if (a < 0)
+            a *= -1;
+        if (b < 0)
+            b *= -1;
+        x = a;
+        y = b;
+    }
+    int getx() {
+        return x;
+    }
+    int gety() {
+        return y;
+    }
+    bool operator<(point p) { 
+        return x < p.x && y < p.y; 
+    }
+    void operator=(point p) {
+        x = p.x;
+        y = p.y;
+    }
+};
+class square {
+    point topleft, lowerright;
+    char Flat[40][40];
+    void updateflat() {
+        for (int i = 0; i < 40; i++)
+            for (int j = 0; j < 40; j++) {
+                if (j >= topleft.getx() && j <= lowerright.getx() && i >= topleft.gety() && i <= lowerright.gety())
+                    Flat[i][j] = '*';
+                else if (i == 0) {
+                    if (j == 0)
+                        Flat[i][j] = '+';
+                    else if (j == 39)
+                        Flat[i][j] = 16;
+                    else Flat[i][j] = '-';
+                }
+                else {
+                    if (j == 0) {
+                        if (i == 39)
+                            Flat[i][j] = 31;
+                        else Flat[i][j] = '|';
+                    }
+                    else Flat[i][j] = ' ';
+                }
+            }
+    }
+public:
+    square(point p1, point p2) {
+        if (p1 < p2) {
+            topleft = p1;
+            lowerright = p2;
+        }
+        else {
+            topleft = p2;
+            lowerright = p1;
+        }
+        updateflat();
+    }
+    point gettopleft() {
+        return topleft;
+    }
+    point getlowerright() {
+        return lowerright;
+    }
+    void move(int x, int y) {
+        topleft = { topleft.getx() + x, topleft.gety() + y};
+        lowerright = { lowerright.getx() + x, lowerright.gety() + y };
+        updateflat();
+    }
+    void reposition(int x, int y) {
+        lowerright = { lowerright.getx() + x - topleft.getx(), lowerright.gety() + y - topleft.gety() };
+        topleft = { x, y };
+        updateflat();
+    }
+    void resize(int a, int b) {
+        lowerright = { lowerright.getx() + a, lowerright.gety() + b };
+        updateflat();
+    }
+    void showsquare() {
+        for (int i = 0; i < 40; i++, cout << endl)
+            for (int j = 0; j < 40; j++)
+                cout << Flat[i][j];
+    }
+};
