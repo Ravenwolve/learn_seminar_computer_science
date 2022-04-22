@@ -11,6 +11,10 @@ public:
     {
         return singer;
     }
+    string getName()
+    {
+        return name;
+    }
 
     MSong(string A, string B) : singer(A), name(B) {};
 };
@@ -19,7 +23,7 @@ public:
     vector <MSong> CD;
     void showCD() {
         for (int i = 0; i < CD.size(); i++)
-            cout << i + 1 << ") " << CD[i].getSinger() << " - " << CD[i].name << endl;
+            cout << i + 1 << ") " << CD[i].getSinger() << " - " << CD[i].getName() << endl;
     }
     void addSong(MSong Song) {
         CD.push_back(Song);
@@ -46,8 +50,8 @@ public:
     void search(string NAME) {
         for (int i = 0; i < Catalog.size(); i++) {
             for (int j = 0; j < Catalog[i].CD.size(); j++)
-                if (NAME == Catalog[i].CD[j].singer)
-                    cout << Catalog[i].CD[j].singer << " - " << Catalog[i].CD[j].name << endl;
+                if (NAME == Catalog[i].CD[j].getSinger())
+                    cout << Catalog[i].CD[j].getSinger() << " - " << Catalog[i].CD[j].getName() << endl;
         }
     }
     void removeSong(int i, int n) {
@@ -75,29 +79,23 @@ int main() {
     AllDisks.Catalog.push_back(Disk1);
     AllDisks.Catalog.push_back(Disk2);
     AllDisks.Catalog.push_back(Disk3);
-    
 
-    Disk1.showCD();
+
+    AllDisks.showCatalog();
     cout << endl;
-    Disk2.showCD();
+    AllDisks.Catalog[0].addSong(A);
     cout << endl;
-    Disk3.showCD();
-    cout << endl;
-    Disk1.addSong(A);
-    cout << endl;
-    Disk1.showCD();
+    AllDisks.Catalog[0].showCD();
     int N;
     cin >> N;
     AllDisks.removeSong(0, N);
     cout << endl;
-    Disk1.showCD();
+    AllDisks.Catalog[0].showCD();
     cout << endl << endl << endl;
     AllDisks.showCatalog();
     cout << endl;
     cin >> N;
     AllDisks.removeCD(N);
-    cout << endl;
-    AllDisks.showCatalog();
     cout << endl;
     AllDisks.showCatalog();
     cout << endl;
