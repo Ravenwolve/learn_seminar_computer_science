@@ -1,0 +1,10 @@
+141 Sharov Kirill Vladimirovich 2003 5 4 3 3 4
+141 Schmidt Denis Borisovich 2003 5 4 4 4 3
+251 Sharov Kirill Vasilevich 2002 5 5 5 5 5
+181 Sharovsky Kirill Konstantinovich 2003 4 5 4 3 3
+331 Mokh Miron Vladimirovich 2001 4 5 3 3 4
+441 Tarelkin Semyon Evgenievich 2000 4 5 5 5 5
+151 Sharov Kirill Vladimirovich 2003 5 5 5 5 2
+241 Tarenkov Ivan Batkovich 2002 5 4 3 4 3
+261 Sharov Kirill Vladimirovich 2002 5 5 5 5 5
+482 Alexandrov Sergei Sergeevich 2000 5 4 5 4 5
