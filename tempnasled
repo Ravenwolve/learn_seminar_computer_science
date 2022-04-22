@@ -7,15 +7,12 @@ class MSong {
 private:
     string singer, name;
 public:
-    string getSinger()
-    {
+    string getSinger() {
         return singer;
     }
-    string getName()
-    {
+    string getName() {
         return name;
     }
-
     MSong(string A, string B) : singer(A), name(B) {};
 };
 class MCD {
