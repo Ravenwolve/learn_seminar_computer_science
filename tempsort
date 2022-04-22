@@ -1,12 +1,21 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <fstream>
 using namespace std;
 class student {
     int group_number;
     string surname, name, lastname;
-    int wasborn, o1, o2, o3, o4, o5;
+    int wasborn;
+    int O[5];
 public:
+    student() : group_number(000), surname("_"), name("_"), lastname("_"), wasborn(0) {
+        for (int i = 0; i < 5; i++)
+            O[i] = 0;
+    }
+    student(int g, string s, string n, string l, int y, int *o): group_number(g), surname(s), name(n), lastname(l), wasborn(y) {
+        for (int i = 0; i < 5; i++)
+            O[i] = o[i];
+    }
     string getSurname() {
         return surname;
     }
@@ -19,58 +28,80 @@ public:
     int getYear() {
         return wasborn;
     }
-    void sort(student* a, int n) {
-        student temp;
-        int i, j;
-        for (int i = 1; i <= n; i++) {
-            j = i;
-            while (a[j] < a[j - 1]) {
-                temp = a[j];
-                a[j] = a[j - 1];
-                a[j - 1] = temp;
-                j--;
-            }
-        }
+
+    int getGroup() {
+        return group_number;
+    }
+    int getO(int n) {
+        if (n >= 0 && n < 5)
+            return O[n];
+        else return 0;
     }
 };
-bool sravname(student first, student second, int k = 0) {
-    int size;
-    string s1, s2;
-    if (k == 0) {
-        s1 = first.getSurname();
-        s2 = second.getSurname();
+bool operator<(student first, student second) {
+    for (int i = 0; i < 3; i++) {
+        if (i == 0) {
+            if (first.getSurname() < second.getSurname())
+                return true;
+            else if (first.getSurname() > second.getSurname())
+                return false;
+        }
+        else if (i == 1) {
+            if (first.getName() < second.getName())
+                return true;
+            else if (first.getName() > second.getName())
+                return false;
+        }
+        else {
+            if (first.getLastname() < second.getLastname())
+                return true;
+            else if (first.getLastname() > second.getLastname())
+                return false;
+        }
     }
-    else if (k == 1) {
-        s1 = first.getName();
-        s2 = second.getName();
-    }
-    else if (k == 2) {
-        s1 = first.getLastname();
-        s2 = second.getLastname();
-    }
-    if (s1 < s2) size = s1.size();
-    else size = s2.size();
-    for (int i = 0; i < size; i++) {
-        if (s1[i] < s2[i])
-            return true;
-        else if (s1[i] > s2[i])
-            return false;
-    }
-    if (size < s2.size())
-        return true;
-    else if (size > s2.size())
-        return false;
-    else {
-        if (k < 2)
-            sravname(first, second, ++k);
-        else return false;
+    return false;
+}
+void sortname(student* A, int n) {
+    student temp;
+    int i, j;
+    for (i = 1; i <= n; i++) {
+        j = i;
+        while (A[j].getSurname() < A[j - 1].getSurname()) {
+            temp = A[j];
+            A[j] = A[j - 1];
+            A[j - 1] = temp;
+            j--;
+        }
     }
 }
-bool operator<(student first, student second) {
-    if (sravname(first, second))
-        if (first.getYear() < second.getYear())
-            return true;
+void sort(student* A, int n) {
+    sortname(A, n);
+    student temp;
+    int i, j;
+    for (i = 1; i <= n; i++) {
+        j = i;
+        while (A[j].getYear() < A[j - 1].getYear()) {
+            temp = A[j];
+            A[j] = A[j - 1];
+            A[j - 1] = temp;
+            j--;
+        }
+    }
 }
 int main() {
     student A[10];
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+    string s, n, l;
+    int g, y;
+    int o[5];
+    for (int i = 0; i < 10; i++) {
+        fin >> g >> s >> n >> l >> y >> o[0] >> o[1] >> o[2] >> o[3] >> o[4];
+        student Temp(g, s, n, l, y, o);
+        A[i] = Temp;
+    }
+    sortname(A, 10);
+    for (int i = 0; i < 10; i++) {
+        fout << A[i].getGroup() << ' ' << A[i].getSurname() << ' ' << A[i].getName() << ' ' << A[i].getLastname() << ' ' << A[i].getYear() << ' ' << A[i].getO(0) << ' ' << A[i].getO(1) << ' ' << A[i].getO(2) << ' ' << A[i].getO(3) << ' ' << A[i].getO(4) << '\n';
+    }
 }
