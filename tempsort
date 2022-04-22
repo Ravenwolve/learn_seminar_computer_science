@@ -38,7 +38,7 @@ public:
         else return 0;
     }
 };
-bool isLower(student x, student y)
+bool srav(student x, student y)
 {
     if (x.getSurname() != y.getSurname())
         return x.getSurname() < y.getSurname();
@@ -48,10 +48,47 @@ bool isLower(student x, student y)
         return x.getLastname() < y.getLastname();
     else return x.getYear() < y.getYear();
 }
+void bubblesort(student* A, int n) {
+    student temp;
+    int i, j;
+    for (i = 0; i < n - 1; i++)
+        for (j = n - 1; j > i; j--)
+            if (srav(A[j], A[j - 1])) {
+                temp = A[j];
+                A[j] = A[j - 1];
+                A[j - 1] = temp;
+            }
+}
 void insertsort(student* A, int n) {
-    for (int i = 1; i < n; i++)
-        for (int j = i; j > 0 && isLower(A[j], A[j - 1]); j--)
-            swap(A[j - 1], A[j]);
+    student temp;
+    int i, j;
+    for (i = 1; i < n; i++) {
+        j = i;
+        while (srav(A[j], A[j - 1])) {
+            temp = A[j];
+            A[j] = A[j - 1];
+            A[j - 1] = temp;
+            j--;
+            if (j == 0)
+                break;
+        }
+    }
+}
+void selectsort(student* A, int n) {
+    student temp, low;
+    int lowindex, i, j;
+    for (i = 0; i < n - 1; i++) {
+        lowindex = i;
+        low = A[i];
+        for (j = i + 1; j < n; j++)
+            if (srav(A[j], low)) {
+                low = A[j];
+                lowindex = j;
+            }
+        temp = A[i];
+        A[i] = A[lowindex];
+        A[lowindex] = temp;
+    }
 }
 int main() {
     student A[10];
@@ -65,7 +102,9 @@ int main() {
         student Temp(g, s, n, l, y, o);
         A[i] = Temp;
     }
-    insertsort(A, 10);
+    bubblesort(A, 10);
+    //insertsort(A, 10);
+    //selectsort(A, 10);
     for (int i = 0; i < 10; i++) {
         fout << A[i].getGroup() << ' ' << A[i].getSurname() << ' ' << A[i].getName() << ' ' << A[i].getLastname() << ' ' << A[i].getYear() << ' ' << A[i].getO(0) << ' ' << A[i].getO(1) << ' ' << A[i].getO(2) << ' ' << A[i].getO(3) << ' ' << A[i].getO(4) << '\n';
     }
