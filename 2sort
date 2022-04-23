@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+
+void pushdown(int* A, int first, int last) {
+    int r = first;
+    while (r <= last / 2) {
+        if (last == 2 * r) {
+            if (A[r] > A[2 * r]) {
+                swap(A[r], A[2 * r]);
+                r = last;
+            }
+        }
+        else if (A[r] > A[2 * r] && A[2 * r] <= A[2 * r + 1]) {
+            swap(A[r], A[2 * r]);
+            r = 2 * r;
+        }
+        else if (A[r] > A[2 * r + 1] && A[2 * r + 1] < A[2 * r]) {
+            swap(A[2 * r + 1], A[2 * r]);
+            r = 2 * r + 1;
+        }
+        else r = last;
+    }
+}
+
+
+int findpivot(int* A, int i, int j) {
+    int firstkey = A[i];
+    for (int k = i + 1; k <= i + 1; k <= j; k++) {
+        if (A[k] > firstkey)
+            return k;
+        else if (A[k] < firstkey)
+            return i;
+    }
+    return 0;
+}
+int partition(int* A, int i, int j, int pivot) {
+    int l = i;
+    int r = j;
+    while (l <= r) {
+        while (A[l] < pivot)
+            l++;
+        while (A[l] >= pivot)
+            r--;
+        if (l < r)
+            swap(A[l], A[r]);
+    }
+}
+void quicksort(int* A, int i, int j) {
+    int pivotindex = findpivot(i, j);
+    if (pivotindex != 0) {
+        int pivot = A[pivotindex];
+        int k = partition(A, i, j, pivot);
+        quicksort(A, i, k - 1);
+        quicksort(A, k, j);
+    }
+}
+void heapsort(int* A, int n) {
+    for (int i = n / 2; i >= 0; i--)
+        pushdown(A, i, n);
+    for (int i = n; i >= 1; i--) {
+        swap(A[0], A[i]);
+        pushdown(A, 1, i - 1);
+    }
+}
+int main() {
+    int N, num = 0;
+    cin >> N;
+    int** A = new int* [N];
+    for (int i = 0; i < N; i++)
+        A[i] = new int[N];
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++, num++)
+            A[i][j] = num;
+    //quicksort(A, 10);
+    for (int i = 0; i < N; i++, cout << endl)
+        for (int j = 0; j < N; j++, cout << '\t')
+            cout << A[i][j];
+}
