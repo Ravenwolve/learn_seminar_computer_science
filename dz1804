@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+class student {
+    string surname, name, lastname;
+    int age;
+    bool stringcondition(string newname) { //Метод-проверка на то, что все символы строки - буквы.
+        if (newname[0] > 64 && newname[0] < 91) {
+            for (int i = 1; i < newname.size(); i++)
+                if (newname[i] < 97 && newname[i] > 122)
+                    break;
+            return true;
+        }
+        return false;
+    }
+public:
+    student() : surname("_"), name("_"), lastname("_"), age(0) {}
+    student(string s, string n, string l, int a) {
+        if (stringcondition(s) && stringcondition(n) && stringcondition(l) && a > 0) { //Инициализация переменной класса Student только при корректности всех подаваемых данных
+            surname = s;
+            name = n;
+            lastname = l;
+            age = a;
+        }
+    }
+    string getSurname() { return surname; }
+    void setSurname(string newname) {
+        if (stringcondition(newname))
+            surname = newname;
+    }
+    string getName() { return name; }
+    void setName(string newname) {
+        if (stringcondition(newname))
+            name = newname;
+    }
+    string getLastname() { return lastname; }
+    void setLastname(string newname) {
+        if (stringcondition(newname))
+            lastname = newname;
+    }
+    int getAge() { return age; }
+    void setAge(int newage) {
+        if (newage > 0)
+            age = newage;
+    }
+    student operator++() {
+        return student(surname, name, lastname, ++age);
+    }
+    student operator++(int) { 
+        student temp(surname, name, lastname, age);
+        ++(*this);
+        return temp;
+    }
+    void showStudent() {
+        cout << surname << '\t' << name << '\t' << lastname << ", " << age << endl;
+    }
+};
+int main() {
+    student A;
+    A++;
+    A.showStudent();
+}
