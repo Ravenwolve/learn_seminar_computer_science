@@ -1,0 +1,65 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+class Stack {
+    struct Element {
+        int inf;
+        Element* next;
+        Element(int x, Element* p) : inf(x), next(p) {}
+    };
+    Element* head;
+public:
+    Stack() : head(0) {}
+    Element* getHead() {
+        return head;
+    }
+    bool empty() {
+        return head == 0;
+    }
+    int pop() {
+        if (empty()) { return 0; }
+        Element* r = head;
+        int i = r->inf;
+        head = r->next;
+        delete r;
+        return i;
+    }
+    void push(int data) {
+        head = new Element(data, head);
+    }
+    int top() {
+        if (empty()) return 0;
+        else return head->inf;
+    }
+    int pairs() {
+        int count = 0;
+        if (empty()) return 0;
+        for (int i = 0; i < sizeof(head); i++)
+            if (head[i].inf == head[i + 1].inf && i + 1 != sizeof(head))
+                count++;
+        return count;
+    }
+    void stacksort() {
+        int remember, end = sizeof(head) - 1;
+        for (int i = 1; i < sizeof(head); i++) {
+            if (head[i - 1].inf == head[i].inf) {
+
+            }
+        }
+    }
+};
+int main() {
+    ifstream fin("input.txt");
+    ofstream fout("output.txt");
+    Stack St, Stfinal;
+    int i;
+    while (fin >> i)
+        St.push(i);
+    fin.close();
+
+
+
+    while (!Stfinal.empty())
+        fout << Stfinal.pop() << ' ';
+    fout.close();
+}
