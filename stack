@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <stack>
 using namespace std;
 class Stack {
     struct Element {
@@ -10,9 +11,6 @@ class Stack {
     Element* head;
 public:
     Stack() : head(0) {}
-    Element* getHead() {
-        return head;
-    }
     bool empty() {
         return head == 0;
     }
@@ -32,34 +30,42 @@ public:
         else return head->inf;
     }
     int pairs() {
-        int count = 0;
-        if (empty()) return 0;
-        for (int i = 0; i < sizeof(head); i++)
-            if (head[i].inf == head[i + 1].inf && i + 1 != sizeof(head))
+        Stack Second;
+        int count = 0, kpop;
+        while (!empty()) {
+            kpop = pop();
+            if (kpop == top())
                 count++;
+            Second.push(kpop);
+        }
+        while (!Second.empty())
+            push(Second.pop());
+        delete Second.head;
         return count;
     }
-    void stacksort() {
-        int remember, end = sizeof(head) - 1;
-        for (int i = 1; i < sizeof(head); i++) {
-            if (head[i - 1].inf == head[i].inf) {
-
-            }
+    void delpairs() {
+        Stack Second;
+        while (!empty()) {
+            if (pop() != top())
+                Second.push(top());
         }
+        Second.pop();
+        while (!Second.empty())
+            push(Second.pop());
+        delete Second.head;
     }
 };
 int main() {
     ifstream fin("input.txt");
     ofstream fout("output.txt");
-    Stack St, Stfinal;
+    Stack St;
     int i;
     while (fin >> i)
         St.push(i);
     fin.close();
-
-
-
-    while (!Stfinal.empty())
-        fout << Stfinal.pop() << ' ';
+    cout << St.pairs() << endl; //количество пар
+    St.delpairs(); //удаляем пары
+    while (!St.empty())
+        fout << St.pop() << ' ';
     fout.close();
 }
