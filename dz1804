@@ -7,9 +7,10 @@ class student {
     int age;
     bool stringcondition(string newname) { //Метод-проверка на то, что все символы строки - буквы.
         if (newname[0] > 64 && newname[0] < 91) {
-            for (int i = 1; i < newname.size(); i++)
+            for (int i = 1; i < newname.size(); i++) {
                 if (newname[i] < 97 && newname[i] > 122)
-                    break;
+                    return false;
+            }
             return true;
         }
         return false;
