@@ -1,0 +1,36 @@
+#include <iostream>
+#include <fstream>
+#include <queue>
+using namespace std;
+int pairs(queue<int>& Queue) {
+    int count = 0, kpop = Queue.front();
+    for (int i = 1, size = Queue.size(); i < size; i++) {
+        Queue.pop();
+        if (kpop != Queue.front()) {
+            Queue.push(kpop);
+            kpop = Queue.front();
+        }
+        else {
+            count++;
+        }
+    }
+    kpop = Queue.front();
+    Queue.pop();
+    Queue.push(kpop);
+    return count;
+}
+int main() {
+    ifstream fin("input.txt");
+    int k;
+    queue<int> Q;
+    while (fin >> k)
+        Q.push(k);
+    fin.close();
+    cout << pairs(Q);
+    ofstream fout("output.txt");
+    while (!Q.empty()) {
+        fout << Q.front() << '\n';
+        Q.pop();
+    }
+    fout.close();
+}
