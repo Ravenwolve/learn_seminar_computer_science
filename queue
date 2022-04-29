@@ -1,36 +1,72 @@
 #include <iostream>
 #include <fstream>
-#include <queue>
+template <class Item>
+class Queue {
+    struct Element {
+        Item inf;
+        Element* next;
+        Element(Item x) :inf(x), next(0) {}
+    };
+    Element* head, * tail;
+    int size;
+public:
+    int Size() { return size; }
+    Queue() : head(0), tail(0), size(0) {}
+    bool Empty() { return head == 0; }
+    Item Get() {
+        if (!Empty()) {
+            Element* t = head;
+            Item i = t->inf;
+            head = t->next;
+            if (head == NULL)
+                tail = NULL;
+            delete t;
+            size--;
+            return i;
+        }
+    }
+    Item Front() {
+        if (!Empty)
+    }
+    void Put(Item data) {
+        Element* t = tail;
+        tail = new Element(data);
+        if (!head)
+            head = tail;
+        else t->next = tail;
+        size++;
+    }
+};
 using namespace std;
-int pairs(queue<int>& Queue) {
-    int count = 0, kpop = Queue.front();
-    for (int i = 1, size = Queue.size(); i < size; i++) {
-        Queue.pop();
-        if (kpop != Queue.front()) {
-            Queue.push(kpop);
-            kpop = Queue.front();
+int pairs(Queue<int>& queue) {
+    int count = 0;
+    for (int i = 1, size = queue.Size(), kpop = queue.Get(), spop = queue.Get(); i < size; i++) {
+        if (kpop != spop) {
+            queue.Put(kpop);
+            queue.Put(spop);
+            kpop = spop;
+            spop = queue.Get();
         }
         else {
+            spop = queue.Get();
             count++;
         }
     }
-    kpop = Queue.front();
-    Queue.pop();
-    Queue.push(kpop);
+    //kpop = queue.Get();
+    //queue.Get();
+    //queue.Put(kpop);
     return count;
 }
 int main() {
     ifstream fin("input.txt");
     int k;
-    queue<int> Q;
+    Queue<int> Q;
     while (fin >> k)
-        Q.push(k);
+        Q.Put(k);
     fin.close();
     cout << pairs(Q);
     ofstream fout("output.txt");
-    while (!Q.empty()) {
-        fout << Q.front() << '\n';
-        Q.pop();
-    }
+    while (!Q.Empty())
+        fout << Q.Get() << '\n';
     fout.close();
 }
