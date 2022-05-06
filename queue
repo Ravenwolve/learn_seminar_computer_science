@@ -25,9 +25,6 @@ public:
             return i;
         }
     }
-    Item Front() {
-        if (!Empty)
-    }
     void Put(Item data) {
         Element* t = tail;
         tail = new Element(data);
@@ -39,23 +36,23 @@ public:
 };
 using namespace std;
 int pairs(Queue<int>& queue) {
-    int count = 0;
-    for (int i = 1, size = queue.Size(), kpop = queue.Get(), spop = queue.Get(); i < size; i++) {
-        if (kpop != spop) {
+    if (queue.Size() > 1) {
+        int count = 0, kpop = queue.Get(), spop = queue.Get();
+        if (kpop != spop)
             queue.Put(kpop);
-            queue.Put(spop);
+        else count++;
+        queue.Put(spop);
+        kpop = spop;
+        for (int i = 0, size = queue.Size(); i < size; i++) {
+            spop = queue.Get();
+            if (kpop == spop)
+                count++;
+            else queue.Put(spop);
             kpop = spop;
-            spop = queue.Get();
         }
-        else {
-            spop = queue.Get();
-            count++;
-        }
+        return count;
     }
-    //kpop = queue.Get();
-    //queue.Get();
-    //queue.Put(kpop);
-    return count;
+    else return 0;
 }
 int main() {
     ifstream fin("input.txt");
