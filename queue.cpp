@@ -52,6 +52,7 @@ int pairs(Queue<int>& queue) {
             rpop = queue.Get();
             if (lpop == rpop)
                 count++;
+            else queue.Put(lpop);
             queue.Put(rpop);
             lpop = rpop;
         }
