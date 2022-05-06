@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+using namespace std;
 template <class Item>
 class Queue {
     struct Element {
@@ -33,8 +34,17 @@ public:
         else t->next = tail;
         size++;
     }
+    void Print(ofstream& out) {
+        for (Element* current = head; current != NULL; current = current->next) {
+            out << current->inf << ' ';
+        }
+    }
+    void Print() {
+        for (Element* current = head; current != NULL; current = current->next) {
+            cout << current->inf << ' ';
+        }
+    }
 };
-using namespace std;
 int pairs(Queue<int>& queue) {
     if (queue.Size() > 1) {
         int count = 0, kpop = queue.Get(), spop = queue.Get();
@@ -43,7 +53,7 @@ int pairs(Queue<int>& queue) {
         else count++;
         queue.Put(spop);
         kpop = spop;
-        for (int i = 0, size = queue.Size(); i < size; i++) {
+        for (int i = 1, size = queue.Size(); i < size; i++) {
             spop = queue.Get();
             if (kpop == spop)
                 count++;
@@ -56,14 +66,14 @@ int pairs(Queue<int>& queue) {
 }
 int main() {
     ifstream fin("input.txt");
+    ofstream fout("output.txt");
     int k;
     Queue<int> Q;
     while (fin >> k)
         Q.Put(k);
     fin.close();
-    cout << pairs(Q);
-    ofstream fout("output.txt");
-    while (!Q.Empty())
-        fout << Q.Get() << '\n';
-    fout.close();
+    Q.Print();
+    cout << endl << pairs(Q) << endl;
+    Q.Print(fout);
+    Q.Print();
 }
