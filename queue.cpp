@@ -46,42 +46,20 @@ public:
     }
 };
 int pairs(Queue<int>& queue) {
-    if (!queue.Empty()) {
-        int count = 0;
-        for (int i = 1, lpop = queue.Get(), rpop, size = queue.Size(); i < size; i++) {
+    if (queue.Size() > 1) {
+        int count = 0, lpop = queue.Get();
+        for (int i = 0, size = queue.Size(), rpop; i < size; i++) {
             rpop = queue.Get();
             if (lpop == rpop)
                 count++;
             else queue.Put(lpop);
-            queue.Put(rpop);
             lpop = rpop;
         }
+        queue.Put(lpop);
         return count;
     }
     else return 0;
 }
-
-//int pairs(Queue<int>& queue) {
-//    if (queue.Size() > 1) {
-//        int count = 0, lpop = queue.Get(), rpop = queue.Get();
-//        if (lpop != rpop) { //если левый элемент не равен правому, то возвращаем левый в конец очереди
-//            queue.Put(lpop);
-//        }
-//        else count++; //счётчик становится равным 1
-//        queue.Put(rpop); //в любом случае правый элемент возвращается в конец очереди
-//        lpop = rpop; //левым становится правый элемент
-//        for (int i = 1, size = queue.Size(); i < size; i++) {
-//            rpop = queue.Get(); //берётся первый и он становится правым элементом (относительно lpop)
-//            if (lpop == rpop) //если левый и правый равны, просто счётчик увеличивается. Так как элемент уже в конце очереди встал вне цикла, нам не нужно толкать туда ничего
-//                count++;
-//            else queue.Put(rpop); //если левый и правый не равны, то правый толкаем в конец очереди
-//            lpop = rpop; //левый становится правым
-//        }
-//        return count;
-//    }
-//    else return 0;
-//}
-
 int main() {
     ifstream fin("input.txt");
     ofstream fout("output.txt");
