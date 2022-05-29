@@ -57,4 +57,5 @@ int main() {
     stable_sort(V.begin(), V.end(), pred);
     for (student S : V)
         cout << S << endl;
+    fin.close();
 }
